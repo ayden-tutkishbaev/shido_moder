@@ -1,13 +1,25 @@
 import configs
 import re
 import datetime
+from aiogram import Bot, types
+from translation import *
+from aiogram.types import Message
+from aiogram.filters import Filter
 
 
-def triggers(text):
-    cleaned_text = re.sub(r'\s+', '', text.lower())
-    for word in configs.BANNED_WORDS:
-        if re.search(rf"{word}", cleaned_text):
-            return True
+def triggers(text, language):
+    if language == "rus":
+        if text:
+            cleaned_text = re.sub(r'\s+', '', text.lower())
+            for word in configs.BANNED_WORDS_RUS:
+                if re.search(rf"{word}", cleaned_text):
+                    return True
+    elif language == "eng":
+        if text:
+            cleaned_text = re.sub(r'\s+', '', text.lower())
+            for word in configs.BANNED_WORDS_ENG:
+                if re.search(rf"{word}", cleaned_text):
+                    return True
     return False
 
 
@@ -15,32 +27,48 @@ def time_converter(time_text) -> datetime:
     if not time_text:
         return None
 
-    match_ = re.match(r"(d+)[a-z]", time_text.lower().strip())
+    match_ = re.match(r"(\d+)([a-z])", time_text.lower().strip())
 
-    current_time = datetime.datetime.utcnow()
+    current_time = datetime.datetime.now()
 
     if match_:
         value, unit = int(match_.group(1)), match_.group(2)
 
-        if unit == "m":
-            time = datetime.timedelta(minutes=value)
-        if unit == "h":
-            time = datetime.timedelta(hours=value)
-        elif unit == "d":
-            time = datetime.timedelta(days=value)
-        elif unit == "w":
-            time = datetime.timedelta(weeks=value)
-        else:
-            return None
-
-        # match unit:
-        #     case "h": time = datetime.timedelta(hours=value)
-        #     case "d": time = datetime.timedelta(days=value)
-        #     case "w": time = datetime.timedelta(weeks=value)
-        #     case _: return None
+        match unit:
+            case "m": time = datetime.timedelta(minutes=value)
+            case "h": time = datetime.timedelta(hours=value)
+            case "d": time = datetime.timedelta(days=value)
+            case "w": time = datetime.timedelta(weeks=value)
+            case _: return None
 
     else:
         return None
 
     new_datetime = current_time + time
     return new_datetime
+
+
+def links_filter(text):
+    url_pattern = re.compile(
+        r'\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))'
+    )
+    exception = re.compile(r"^https://t\.me/Gamerlandbs$")
+
+    if text:
+        if not exception.search(text):
+            if url_pattern.search(text):
+                return True
+
+    return False
+
+
+class Admin(Filter):
+    async def __call__(self, message: Message) -> bool:
+        return message.from_user.id in [7215866709]
+
+
+# async def set_commands(bot: Bot):
+#     await bot.delete_my_commands()  #switchable
+#     commands = [
+#     ]
+#     await bot.set_my_commands(commands)

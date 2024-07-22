@@ -1,15 +1,35 @@
 import sqlite3
 
 
-def create_users_table():
+def create_languages_table():
     database = sqlite3.connect("moder_bot.db")
     cursor = database.cursor()
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users(
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        telegram_id INTEGER UNIQUE,
-        full_name TEXT
+    CREATE TABLE IF NOT EXISTS languages(
+        language_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        chat_id INTEGER UNIQUE,
+        language TEXT DEFAULT ""
     )
     """)
     database.commit()
     database.close()
+
+
+def eng_stories_table():
+    sqlite3.connect("moder_bot.db").cursor().execute("""
+    CREATE TABLE IF NOT EXISTS stories_eng(
+        story_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        text TEXT
+    )
+    """)
+
+
+def rus_stories_table():
+    sqlite3.connect("moder_bot.db").cursor().execute("""
+    CREATE TABLE IF NOT EXISTS stories_rus(
+        story_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        text TEXT
+    )
+    """)

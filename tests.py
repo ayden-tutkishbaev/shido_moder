@@ -34,3 +34,16 @@ translation = {
     "я": ["я"],
     " ": [" "]
 }
+
+# message = ""
+#
+# reason_filter = message.split(" ")
+# reason = " ".join(reason_filter)
+#
+# print(reason_filter)
+# if reason == "":
+#     print("BLANK")
+
+from database.queries import *
+
+print(get_eng_story_del("Headline"))
