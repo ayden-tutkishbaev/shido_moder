@@ -3,18 +3,11 @@ import logging
 import sys
 from dotenv import dotenv_values
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from database.core import *
-
-from middlewares import *
-
-from bot.utils import *
-
-from bot import admins
-from bot import handlers
+from handlers import admins, group, chat
 
 config = dotenv_values(".env")
 
@@ -22,10 +15,11 @@ config = dotenv_values(".env")
 async def main() -> None:
     dp = Dispatcher()
     bot = Bot(token=config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    # dp.message.middleware(ThrottlingMiddleware())
+
     dp.include_routers(
         admins.rt,
-        handlers.rt
+        chat.rt,
+        group.rt
     )
     await dp.start_polling(bot)
 

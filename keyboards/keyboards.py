@@ -1,7 +1,8 @@
 from aiogram.utils.keyboard import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardBuilder
-from translation import *
+from utils.translation import *
 
 from database.queries import *
+
 
 def creator_keyboard():
     keyboard = ReplyKeyboardMarkup(
@@ -18,7 +19,9 @@ def main_keyboard(language):
     keyboard = ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text=MESSAGES['instruction'][language])],
-            [KeyboardButton(text=MESSAGES['command_list'][language])]
+            [KeyboardButton(text=MESSAGES['command_list'][language])],
+            [KeyboardButton(text=MESSAGES['report_a_bug'][language])],
+            [KeyboardButton(text=MESSAGES['about_creator'][language])],
         ], resize_keyboard=True
     )
 

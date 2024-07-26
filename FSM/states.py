@@ -13,3 +13,7 @@ class EngStoryCreation(StatesGroup):
 class RusStoryCreation(StatesGroup):
     title = State()
     text = State()
+
+
+class BugReport(StatesGroup):
+    message = State()

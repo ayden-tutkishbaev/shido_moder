@@ -1,10 +1,7 @@
 import configs
 import re
 import datetime
-from aiogram import Bot, types
-from translation import *
-from aiogram.types import Message
-from aiogram.filters import Filter
+
 
 
 def triggers(text, language):
@@ -60,11 +57,6 @@ def links_filter(text):
                 return True
 
     return False
-
-
-class Admin(Filter):
-    async def __call__(self, message: Message) -> bool:
-        return message.from_user.id in [7215866709]
 
 
 # async def set_commands(bot: Bot):

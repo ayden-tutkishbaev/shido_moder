@@ -1,16 +1,13 @@
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery
-from bot.utils import *
+from aiogram.types import CallbackQuery, Message
+from filters.filters import Admin
 
-from states import *
+from FSM.states import *
 from aiogram.fsm.context import FSMContext
 from database.queries import *
 
-from bot.keyboards import keyboards as rp
-from bot.keyboards import inline as il
-
-import random
+from keyboards import keyboards as rp, inline as il
 
 rt = Router()
 
