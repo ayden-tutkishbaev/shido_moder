@@ -46,4 +46,19 @@ translation = {
 
 from database.queries import *
 
-print(get_eng_story_del("Headline"))
+# print(get_eng_story_del("Headline"))
+
+BANNED_WORDS_RUS = ["хуй", "сука", "бля", "пидор", "ебать", "блядь", "пизда", "манда", "малафья", "дрочить", "минжа",
+                    "сперма", "гондон", "гандон", "целка", "трах", "минет", "педик", "хуе", "хуя", "выёбываться",
+                    "еба", "ёба", "fuck", "bitch", "shit", "cock", "suck", "dick",
+                    "анал", "сиськи", "мудила", "мудак", "пизд", "хер"]
+
+SWEAR_WORDS_RUS = ["хач", "харып", "мамбет", "хохол", "жид", "пиндос", "пендос", "чурка", "негр", "ниггер", "черножопый",
+                   "черномазый", "кацап", "москаль", "русня", "шлюха", "проститутка"]
+
+BANNED_WORDS_ENG = ["shit", "fuck", "cock", "crap", "dick", "pussy", "cunt",
+                    "cum", "penis", "fap", "wank", "anal", 'tits']
+
+SWEAR_WORDS_ENG = ["bitch", "asshole", "nigger", "nigga", "whore", "prostitute", "slut", "bastard", "hoe"]
+
+print(get_chat_permissions(-1002226995046))

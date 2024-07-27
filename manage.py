@@ -9,6 +9,9 @@ from aiogram.enums import ParseMode
 
 from handlers import admins, group, chat
 
+from database.core import *
+from database.queries import *
+
 config = dotenv_values(".env")
 
 
@@ -30,6 +33,12 @@ if __name__ == "__main__":
     # create_languages_table()
     # eng_stories_table()
     # rus_stories_table()
+    #TODO: on production
+    # chat_permissions()
+    # all_chats = get_all_chats()
+    # for chat in all_chats:
+    #     fill_all_rows(chat, False, True)
+
     try:
         asyncio.run(main())
     except KeyboardInterrupt:

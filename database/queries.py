@@ -169,3 +169,85 @@ def delete_rus_story(title):
     """, (title,))
     database.commit()
     database.close()
+
+
+def insert_id_to_chat_permissions(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    INSERT OR IGNORE INTO permissions(chat_id)
+    VALUES (?)
+    """, (chat_id,))
+    database.commit()
+    database.close()
+
+
+def off_swears(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    UPDATE permissions
+    SET is_swear_words = False
+    WHERE chat_id = ?""", (chat_id,))
+    database.commit()
+    database.close()
+
+
+def on_swears(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    UPDATE permissions
+    SET is_swear_words = True
+    WHERE chat_id = ?""", (chat_id,))
+    database.commit()
+    database.close()
+
+
+def on_lnks(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    UPDATE permissions
+    SET is_links = True
+    WHERE chat_id = ?""", (chat_id,))
+    database.commit()
+    database.close()
+
+
+def off_lnks(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    UPDATE permissions
+    SET is_links = False
+    WHERE chat_id = ?""", (chat_id,))
+    database.commit()
+    database.close()
+
+
+def get_chat_permissions(chat_id):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+    SELECT is_swear_words, is_links FROM permissions
+    WHERE chat_id = ?
+    """, (chat_id,))
+
+    permissions = cursor.fetchone()
+
+    database.close()
+
+    return permissions
+
+
+def fill_all_rows(chat_id, is_swear_words, is_links):
+    database = sqlite3.connect("moder_bot.db")
+    cursor = database.cursor()
+    cursor.execute("""
+        INSERT INTO permissions(chat_id, is_swear_words, is_links)
+        VALUES (?, ?, ?)
+        """, (chat_id, is_swear_words, is_links))
+    database.commit()
+    database.close()
+

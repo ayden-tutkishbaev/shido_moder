@@ -15,6 +15,10 @@ MESSAGES = {
         "eng": "<i>whoa there, pardner, <b>strong language</b> is prohibited in the chat! I have muted you for 2 minutes to make you think about your behaviour!</i>",
         "rus": "<i>нельзя здесь так <b>вульгарно выражаться</b>! Я заглушил тебя на 2 минуты чтобы ты задумался о своём поведении!</i>"
     },
+    'anti_ban_words': {
+        "eng": "<i>whoa there, pardner, DO NOT <b>insult</b> anyone! I have muted you for 2 minutes to make you think about your behaviour!</i>",
+        "rus": "<i>оскорбления <b>не приветствуются</b>! Я заглушил тебя на 2 минуты чтобы ты задумался о своём поведении!</i>"
+    },
     "admin_rights_prohibited": {
         "eng": "The command is available to the group's admins only!",
         "rus": "Команда доступна только администраторам группы!"
@@ -138,5 +142,21 @@ MESSAGES = {
     "sending_error": {
         "eng": "An unknown error occurred while sending the message, try again!",
         "rus": "При отправлении сообщения произошла неизвестная ошибка, попробуйте снова!"
+    },
+    "links_on": {
+        "eng": "Muting for links sharing is off.📣 Links are allowed in messages now!",
+        "rus": "Мут за ссылки в сообщении отключен.📣 Теперь ссылки разрешены!"
+    },
+    "strong_language_on": {
+        "eng": "Muting for strong language in message is off.🥴 Express your thoughts in any way!",
+        "rus": "Мут за нецензурные слова отключен.🥴 Выражайтесь, как душе угодно!"
+    },
+    "links_off": {
+        "eng": "Muting for links sharing is on!📣❌ Links are prohibited in messages now!",
+        "rus": "Мут за ссылки в сообщении включен!📣❌ Ссылки теперь запрещены в чате!"
+    },
+    "strong_language_off": {
+        "eng": "Muting for strong language in message is on!\n😉Mind your language, dear participants!",
+        "rus": "Мут за нецензурные слова включен!\n😉Следите за своей речью, уважаемые участники группы!"
     }
 }

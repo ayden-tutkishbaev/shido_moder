@@ -3,8 +3,23 @@ import re
 import datetime
 
 
-
 def triggers(text, language):
+    if language == "rus":
+        if text:
+            cleaned_text = re.sub(r'\s+', '', text.lower())
+            for word in configs.SWEAR_WORDS_RUS:
+                if re.search(rf"{word}", cleaned_text):
+                    return True
+    elif language == "eng":
+        if text:
+            cleaned_text = re.sub(r'\s+', '', text.lower())
+            for word in configs.SWEAR_WORDS_ENG:
+                if re.search(rf"{word}", cleaned_text):
+                    return True
+    return False
+
+
+def banned_words(text, language):
     if language == "rus":
         if text:
             cleaned_text = re.sub(r'\s+', '', text.lower())
