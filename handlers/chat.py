@@ -41,8 +41,8 @@ async def list_commands(message: Message):
 
 
 @rt.message(IsPrivateChat(), lambda message: message.text in [
-"Report a bug",
-"Сообщить об ошибке"])
+"Report a bug / Suggest an improvement",
+"Сообщить об ошибке / Предложить улучшение"])
 async def bug_report(message: Message, state: FSMContext):
     language = identify_language(message.chat.id)
     await state.set_state(BugReport.message)
@@ -57,7 +57,7 @@ async def send_newsletter(message: Message, state: FSMContext, bot: Bot) -> None
         await bot.send_message(chat_id=7215866709, text=f"<b>A bug has been reported by {message.from_user.full_name}!</b>")
         await message.send_copy(chat_id=7215866709)
     except:
-        await message.answer(MESSAGES['sending_error'][language])
+        await message.answer(MESSAGES['message_success'][language])
     await message.answer("The message has been sent to all successfully!")
     await state.clear()
 
@@ -75,3 +75,8 @@ async def add_me_instructions(message: Message):
 async def list_commands(message: Message):
     language = identify_language(message.chat.id)
     await message.answer(MESSAGES['list_of_commands'][language])
+
+
+@rt.message(IsPrivateChat(), lambda message: message.text in ["Change language", "Изменить язык"])
+async def switch_languages(message: Message):
+    await command_start_handler(message)

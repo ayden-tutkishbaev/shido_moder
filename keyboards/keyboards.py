@@ -22,6 +22,7 @@ def main_keyboard(language):
             [KeyboardButton(text=MESSAGES['command_list'][language])],
             [KeyboardButton(text=MESSAGES['report_a_bug'][language])],
             [KeyboardButton(text=MESSAGES['about_creator'][language])],
+            [KeyboardButton(text=MESSAGES['change_language'][language])]
         ], resize_keyboard=True
     )
 

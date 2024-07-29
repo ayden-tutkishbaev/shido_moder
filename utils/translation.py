@@ -16,8 +16,8 @@ MESSAGES = {
         "rus": "<i>нельзя здесь так <b>вульгарно выражаться</b>! Я заглушил тебя на 2 минуты чтобы ты задумался о своём поведении!</i>"
     },
     'anti_ban_words': {
-        "eng": "<i>whoa there, pardner, DO NOT <b>insult</b> anyone! I have muted you for 2 minutes to make you think about your behaviour!</i>",
-        "rus": "<i>оскорбления <b>не приветствуются</b>! Я заглушил тебя на 2 минуты чтобы ты задумался о своём поведении!</i>"
+        "eng": "<i>whoa there, pardner, DO NOT <b>insult</b> anyone! I have muted you for 3 minutes to make you think about your behaviour!</i>",
+        "rus": "<i>оскорбления <b>не приветствуются</b>! Я заглушил тебя на 3 минуты чтобы ты задумался о своём поведении!</i>"
     },
     "admin_rights_prohibited": {
         "eng": "The command is available to the group's admins only!",
@@ -36,7 +36,7 @@ MESSAGES = {
         "rus": "<i>был выдворен из группы по <b>неизвестной причине</b></i>"
     },
     "banned": {
-        "eng": "<i>has been kicked out from the group due to:</i>",
+        "eng": "<i>has been kicked out of the group due to:</i>",
         "rus": "<i>был выдворен из группы по причине:</i>"
     },
     "anti_links": {
@@ -101,15 +101,21 @@ MESSAGES = {
     },
     "list_of_commands": {
         "eng": """🕹 <b>I provide the following commands:</b>\n\n\n      /languages\n🌐 <i>To change the language</i>\nCurrent languages available:\n-Русский 🇷🇺\n-English 🇬🇧\n\n
+        /swears_on & /swears_off\n🤬<i>Allow or prohibit strong language</i>\nDefault - off\n\n
+        /links_on & /links_off\n📣<i>Allow or prohibit links sharing</i>\nDefault - on\n\n
         /mute\n🚫<i>To mute a member</i>\nAdmins should reply to any message of a member they want to mute and write duration of the mute - <b>N minutes (m), N hours (h), N days (d), N weeks (w)</b>.Moreover, they can indicate the reason why they decided to mute this member, but it's optional. The handlers will still handle a command with no reason typed.\n\n
         /ban\n❌<i>To kick out a member of the group for good</i>\nSame as the mute command, but there is CURRENTLY no need to write duration - admins just kick out a delinquent from the group - that's it. Creators are working on modernization of this command!\n\n
         /unmute\n🥹<i>To unmute a member</i>\nSimilar as mute command as well, but in reverse. In case admins commited a mistake or the offender thought about his behaviour, he will be allowed to send messages\n\n
-        /unban\n😌<i>To unban a member</i>\nApplying the command will permit a banned user to join your group, but don't forget to inform him then! :D\n\n\n\n🚧 <b>Way more commands are to be added! Stay tuned to catch up with all updates ;)</b>""",
+        /unban\n😌<i>To unban a member</i>\nApplying the command will permit a banned user to join your group, but don't forget to inform him then! :D\n\n
+        /curfew & /wakeup 💤 <i>Curfew</i>\nAdministrators can turn off the group from chatting in inactive times, for instance, at night. Don't forget to turn it back then! 😜\n\n\n\n🚧 <b>Way more commands are to be added! Stay tuned to catch up with all updates ;)</b>""",
         "rus": """🕹 <b>Мои команды:</b>\n\n\n      /languages\n🌐 <i>Изменить язык</i>\nНа данный момент доступны:\n-Русский 🇷🇺\n-English 🇬🇧\n\n
+        /swears_on & /swears_off\n🤬<i>Разрешить и запретить нецензурные выражения</i>\nПо умолчанию - запрещены\n\n
+        /links_on & /links_off\n📣<i>Разрешить и запретить ссылки в сообщениях</i>\nПо умолчанию - разрешены\n\n
         /mute\n🚫<i>Заглушить участника</i>\nАдмины должны ответить на сообщение участника и указать длительность ограничения отправлять сообщения- <b>N минут (m), N часов (h), N дней (d), N недель (w)</b>.Кроме того, админ может указать причину заглушки пользователя - но это уже по его желанию. Бот всё равно обработает команду без указанной причины.\n\n
         /ban\n❌<i>Выгнать участника навсегда</i>\nТакая же как и команду с мутом, но здесь ПОКА ЧТО не нужно писать длительность - админы просто выгоняют негодея из группы - и всё. Создатели активно работают над модернизацией команды!!\n\n
         /unmute\n🥹<i>Размутить участника</i>\nОбратная команда mute. На случай если администратор ошибся или же нарушитель подумал о своём поведении - ему будет разрешено отправлять любые сообщения.\n\n
-        /unban\n😌<i>Разбанить участника</i>\nПрименение данной команды позволит забаненному участнику свободно вступить в вашу группу, однако не забудьте ему об этом сказать! :D\n\n\n\n🚧 <b>Другие команды в разработке! Оставайтесь с нами чтобы не пропустить обновления! ;)</b>"""
+        /unban\n😌<i>Разбанить участника</i>\nПрименение данной команды позволит забаненному участнику свободно вступить в вашу группу, однако не забудьте ему об этом сказать! :D\n\n
+        /curfew & /wakeup 💤 <i>Комендантский час</i>\nАдминистраторы могут выключать чат по ночам или же в неактивное для них время. Не забудьте потом его включать обратно! 😜\n\n\n\n🚧 <b>Другие команды в разработке! Оставайтесь с нами чтобы не пропустить обновления! ;)</b>"""
     },
     "about": {
         "eng": "Coming soon...",
@@ -128,8 +134,8 @@ MESSAGES = {
         "rus": """📃 <b>ИНСТРУКЦИЯ ПО ДОБАВЛЕНИЮ БОТА В ВАШУ ГРУППУ:\n\n\n</b>1️⃣ <i>Зайдите в профиль бота</i>\n\n2️⃣ <i>Нажмите на «Добавить в группу или канал»</i>\n\n3️⃣ <i>Выберите свой чат</i>\n\n4️⃣ <i>Нажмите на «Добавить как администратора» и подтвердите действие</i>\n\n❗️5️⃣ <i>Не забудьте, добавив бота, прописать команду <b>«/start»</b>, которая настроит бота!</i>\n\n6️⃣ <i>Выберите свой язык</i>\n\n😇 <b>Наслаждайтесь!</b>"""
     },
     "report_a_bug": {
-        "eng": "Report a bug",
-        "rus": "Сообщить об ошибке"
+        "eng": "Report a bug / Suggest an improvement",
+        "rus": "Сообщить об ошибке / Предложить улучшение"
     },
     "bug_reported": {
         "eng": "Good part of the day! What is the problem that you have faced?",
@@ -158,5 +164,21 @@ MESSAGES = {
     "strong_language_off": {
         "eng": "Muting for strong language in message is on!\n😉Mind your language, dear participants!",
         "rus": "Мут за нецензурные слова включен!\n😉Следите за своей речью, уважаемые участники группы!"
+    },
+    "message_success": {
+        "eng": "Your message has been sent successfully ✅",
+        "rus": "Ваше сообщение было отправлено успешно ✅"
+    },
+    "change_language": {
+        "eng": "Change language",
+        "rus": "Изменить язык"
+    },
+    "curfew_on": {
+        "eng": "💤 <i>A <b>curfew</b> has been declared in the chat!</i>",
+        "rus": "💤 <i>В чате объявлен <b>комендантский час</b>!</i>"
+    },
+    "curfew_off": {
+        "eng": "🌄 <i>Messages are <b>open</b> for everyone!</i>",
+        "rus": "🌄 <i>Сообщения <b>открыты</b> для всех!</i>"
     }
 }

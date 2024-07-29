@@ -100,9 +100,10 @@ async def set_bot_language(message: Message, bot: Bot) -> None:
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
     if chat_member.status not in ['administrator', 'creator']:
         await message.answer("Error: Access prohibited!")
-    await message.answer(
-        f"Hello, members of <b>{message.chat.title}</b> chat!\nChoose a language on which I will be operated.\n:)",
-        reply_markup=il.languages_inline_buttons())
+    else:
+        await message.answer(
+            f"Hello, members of <b>{message.chat.title}</b> chat!\nChoose a language on which I will be operated.\n:)",
+            reply_markup=il.languages_inline_buttons())
 
 
 @rt.callback_query(CallGroupChat(), lambda callback: callback.data in ["rus", "eng"])
@@ -249,8 +250,54 @@ async def unban_handler(message: Message, bot: Bot) -> None:
             await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
+@rt.message(IsGroupChat(), Command("sleep"))
+async def curfew(message: Message, bot: Bot):
+    language_code = identify_language(message.chat.id)
+    member = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    member_permissions = ChatPermissions(
+        can_send_messages=False,
+        can_send_photos=False,
+        can_send_videos=False,
+        can_send_documents=False,
+        can_send_other_messages=False,
+        can_send_audios=False,
+        can_send_video_notes=False,
+        can_send_voice_notes=False,
+        can_invite_users=False,
+        can_send_polls=False,
+        can_add_web_page_previews=False
+    )
+    if member.status not in ['administrator', 'creator']:
+        await message.reply(MESSAGES['admin_rights_prohibited'][language_code])
+    else:
+        with suppress(TelegramBadRequest):
+            await bot.set_chat_permissions(chat_id=message.chat.id, permissions=member_permissions)
+            await message.answer(MESSAGES['curfew_on'][language_code])
 
 
+@rt.message(IsGroupChat(), Command("wakeup"))
+async def wake_up(message: Message, bot: Bot):
+    language_code = identify_language(message.chat.id)
+    member = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    member_permissions = ChatPermissions(
+        can_send_messages=True,
+        can_send_photos=True,
+        can_send_videos=True,
+        can_send_documents=True,
+        can_send_other_messages=True,
+        can_send_audios=True,
+        can_send_video_notes=True,
+        can_send_voice_notes=True,
+        can_invite_users=True,
+        can_send_polls=True,
+        can_add_web_page_previews=True
+    )
+    if member.status not in ['administrator', 'creator']:
+        await message.reply(MESSAGES['admin_rights_prohibited'][language_code])
+    else:
+        with suppress(TelegramBadRequest):
+            await bot.set_chat_permissions(chat_id=message.chat.id, permissions=member_permissions)
+            await message.answer(MESSAGES['curfew_off'][language_code])
 
 
 #########################################################################################################
@@ -261,7 +308,8 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
     text = message.text
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
     chat_id = message.chat.id
-    until_date_words = datetime.datetime.now() + datetime.timedelta(minutes=2)
+    until_date_banned_words = datetime.datetime.now() + datetime.timedelta(minutes=3)
+    until_date_swear_words = datetime.datetime.now() + datetime.timedelta(minutes=2)
     until_date_links = datetime.datetime.now() + datetime.timedelta(minutes=5)
     language = identify_language(chat_id)
     permits = get_chat_permissions(chat_id)
@@ -273,7 +321,7 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
                     chat_id=message.chat.id,
                     user_id=message.from_user.id,
                     permissions=ChatPermissions(can_send_messages=False),
-                    until_date=until_date_words
+                    until_date=until_date_banned_words
                 )
                 await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
                                      f"{MESSAGES['anti_ban_words'][language]}")
@@ -285,7 +333,7 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
                         chat_id=message.chat.id,
                         user_id=message.from_user.id,
                         permissions=ChatPermissions(can_send_messages=False),
-                        until_date=until_date_words
+                        until_date=until_date_swear_words
                     )
                     await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
                                         f"{MESSAGES['anti_trigger'][language]}")
@@ -308,7 +356,8 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
     language = identify_language(message.chat.id)
     text = message.text
-    until_date_words = datetime.datetime.now() + datetime.timedelta(minutes=2)
+    until_date_banned_words = datetime.datetime.now() + datetime.timedelta(minutes=3)
+    until_date_swear_words = datetime.datetime.now() + datetime.timedelta(minutes=2)
     until_date_links = datetime.datetime.now() + datetime.timedelta(minutes=5)
     permits = get_chat_permissions(message.chat.id)
     if chat_member.status not in ['administrator', 'creator']:
@@ -319,7 +368,7 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
                     chat_id=message.chat.id,
                     user_id=message.from_user.id,
                     permissions=ChatPermissions(can_send_messages=False),
-                    until_date=until_date_words
+                    until_date=until_date_banned_words
                 )
                 await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
                                      f"{MESSAGES['anti_ban_words'][language]}")
@@ -331,7 +380,7 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
                         chat_id=message.chat.id,
                         user_id=message.from_user.id,
                         permissions=ChatPermissions(can_send_messages=False),
-                        until_date=until_date_words
+                        until_date=until_date_swear_words
                     )
                     await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
                                         f"{MESSAGES['anti_trigger'][language]}")
