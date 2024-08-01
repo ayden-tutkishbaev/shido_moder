@@ -1,11 +1,14 @@
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 from filters.filters import Admin
 
-from FSM.states import *
+from utils.translation import MESSAGES
+
 from aiogram.fsm.context import FSMContext
 from database.queries import *
+
+from FSM.states import *
 
 from keyboards import keyboards as rp, inline as il
 
@@ -36,7 +39,7 @@ async def send_newsletter(message: Message, state: FSMContext) -> None:
         try:
             await message.send_copy(chat_id=chat)
         except:
-            await message.answer("An error occurred!")
+            pass
     await message.answer("The message has been sent to all successfully!")
     await state.clear()
 
@@ -128,6 +131,26 @@ async def delete_story_ru(callback: CallbackQuery):
     await callback.message.answer("Successfully deleted!", reply_markup=rp.russian_stories())
 
 
+@rt.callback_query(Admin(), F.data.startswith("answer_to_"))
+async def bug_report(callback: CallbackQuery, state: FSMContext):
+    receiver = int(callback.data.split("_")[2])
+    await state.set_state(AnswerMessage.to)
+    await state.update_data(to=receiver)
+    await state.set_state(AnswerMessage.message)
+    await callback.message.answer("Leave your message to the sender:")
 
+
+@rt.message(Admin(), AnswerMessage.message)
+async def send_newsletter(message: Message, state: FSMContext, bot: Bot) -> None:
+    language = identify_language(message.chat.id)
+    data = await state.get_data()
+    await message.answer('Your message is being sent...')
+    try:
+        await bot.send_message(chat_id=data['to'], text=f"<b>{MESSAGES['message_answered'][language]}</b>")
+        await message.send_copy(chat_id=data['to'])
+    except:
+        await message.answer('Something went wrong, try again!')
+    await message.answer("The message has been sent successfully!")
+    await state.clear()
 
 

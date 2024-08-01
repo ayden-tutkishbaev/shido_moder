@@ -24,56 +24,57 @@ async def command_start_handler(message: Message, bot: Bot) -> None:
     insert_id(chat_id)
     insert_id_to_chat_permissions(chat_id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer("Error: Access prohibited!")
+    else:
         await message.answer(
             f"Hello, members of «<b>{message.chat.title}</b>» group\nChoose your language:\n\n"
-            f"Приветствую всех участников чата «<b>{message.chat.title}</b>»\nВыбери свой язык:", reply_markup=il.languages_inline_buttons())
-    else:
-        await message.answer("Error: Access prohibited!")
+            f"Приветствую всех участников чата «<b>{message.chat.title}</b>»\nВыбери свой язык:",
+            reply_markup=il.languages_inline_buttons())
 
 
 @rt.message(IsGroupChat(), Command("links_on"))
 async def permissions_menu(message: Message, bot: Bot):
     language = identify_language(message.chat.id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
+    else:
         on_lnks(message.chat.id)
         await message.answer(MESSAGES['links_on'][language])
-    else:
-        await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
 @rt.message(IsGroupChat(), Command("links_off"))
 async def permissions_menu(message: Message, bot: Bot):
     language = identify_language(message.chat.id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
+    else:
         off_lnks(message.chat.id)
         await message.answer(MESSAGES['links_off'][language])
-    else:
-        await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
 @rt.message(IsGroupChat(), Command("swears_on"))
 async def permissions_menu(message: Message, bot: Bot):
     language = identify_language(message.chat.id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
+    else:
         on_swears(message.chat.id)
         await message.answer(MESSAGES['strong_language_on'][language])
-    else:
-        await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
 @rt.message(IsGroupChat(), Command("swears_off"))
 async def permissions_menu(message: Message, bot: Bot):
     language = identify_language(message.chat.id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
+    else:
         off_swears(message.chat.id)
         await message.answer(MESSAGES['strong_language_off'][language])
-    else:
-        await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
 @rt.message(IsGroupChat(), lambda message: message.text in ["Шидо расскажи историю", "Shido tell a story"])
@@ -98,7 +99,7 @@ async def set_bot_language(message: Message, bot: Bot) -> None:
     chat_id = message.chat.id
     insert_id(chat_id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
         await message.answer("Error: Access prohibited!")
     else:
         await message.answer(
@@ -114,7 +115,7 @@ async def set_message(callback: CallbackQuery, bot: Bot):
     chat_id = callback.message.chat.id
     language = identify_language(chat_id)
     await callback.message.delete()
-    await callback.message.answer_photo(caption=f"{MESSAGES['addition_to_a_group'][language]}", photo="AgACAgIAAxkBAAIBXmaiTfZIW5U0M7snAAELcJ0NgnDEFQACfuAxG6JcGUlTBQABnZ2SdzcBAAMCAAN5AAM1BA")
+    await callback.message.answer(f"{MESSAGES['addition_to_a_group'][language]}")
     await callback.message.answer(MESSAGES['welcome_message'][language])
 
 
@@ -126,14 +127,14 @@ async def mute_handler(message: Message, bot: Bot, command: CommandObject):
 
     reply = message.reply_to_message
     if not reply:
-        if chat_member.status not in ['administrator', 'creator']:
+        if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
             return await message.answer(MESSAGES['admin_rights_prohibited'][language])
         else:
             return await message.answer(MESSAGES['reply_to_restrict'][language])
 
     until_date = time_converter(command.args)
 
-    if chat_member.status not in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
         return await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
     if command.args:
@@ -164,13 +165,12 @@ async def mute_handler(message: Message, bot: Bot):
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
     reply = message.reply_to_message
 
-    if not reply:
-        if chat_member.status in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
+    else:
+        if not reply:
             return await message.answer(MESSAGES['reply_to_restrict'][language])
         else:
-            return await message.answer(MESSAGES['admin_rights_prohibited'][language])
-    else:
-        if chat_member.status in ['administrator', 'creator']:
             with suppress(TelegramBadRequest):
                 await bot.restrict_chat_member(
                     chat_id=message.chat.id,
@@ -192,8 +192,6 @@ async def mute_handler(message: Message, bot: Bot):
                 )
                 await message.answer(
                     f"😌 <b>{reply.from_user.mention_html(reply.from_user.first_name)}</b> {MESSAGES['unmute'][language]}")
-        else:
-            return await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
 
 @rt.message(IsGroupChat(), Command(commands=["ban"]))   # TODO: fix
@@ -204,12 +202,12 @@ async def mute_handler(message: Message, bot: Bot, command: CommandObject):
 
     reply = message.reply_to_message
     if not reply:
-        if chat_member.status not in ['administrator', 'creator']:
+        if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
             return await message.answer(MESSAGES['admin_rights_prohibited'][language])
         else:
             return await message.answer(MESSAGES['reply_to_restrict'][language])
 
-    if chat_member.status not in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
         return await message.answer(MESSAGES['admin_rights_prohibited'][language])
 
     if command.args:
@@ -227,27 +225,25 @@ async def mute_handler(message: Message, bot: Bot, command: CommandObject):
             await message.answer(f"❌ <b>{reply.from_user.mention_html(reply.from_user.first_name)}</b> {MESSAGES['banned'][language]} <b>{reason}</b>!")
 
 
-@rt.message(IsGroupChat(), Command(commands=["unban"]))  # TODO: fix
+@rt.message(IsGroupChat(), Command(commands=["unban"]))
 async def unban_handler(message: Message, bot: Bot) -> None:
     reply = message.reply_to_message
     language = identify_language(message.chat.id)
     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
-    if not reply:
-        if chat_member.status not in ['administrator', 'creator']:
-            await message.answer(MESSAGES['admin_rights_prohibited'][language])
-        else:
-            await message.answer(MESSAGES['reply_to_restrict'][language])
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+        await message.answer(MESSAGES['admin_rights_prohibited'][language])
     else:
-        suspect = await bot.get_chat_member(message.chat.id, message.reply_to_message.from_user.id)
-        if chat_member.status in ['administrator', 'creator']:
+        if not reply:
+            await message.answer(MESSAGES['reply_to_restrict'][language])
+        else:
+            suspect = await bot.get_chat_member(message.chat.id, message.reply_to_message.from_user.id)
             if suspect.status not in ['kicked']:
                 await message.answer(f"😳 {reply.from_user.mention_html(reply.from_user.first_name)} {MESSAGES['unban_error'][language]}")
             else:
                 with suppress(TelegramBadRequest):
                     await bot.unban_chat_member(chat_id=message.chat.id, user_id=reply.from_user.id)
-                    await message.answer(f"🔓 {reply.from_user.mention_html(reply.from_user.first_name)} {MESSAGES['unban'][language]}")
-        else:
-            await message.answer(MESSAGES['admin_rights_prohibited'][language])
+                    await message.answer(
+                        f"🔓 {reply.from_user.mention_html(reply.from_user.first_name)} {MESSAGES['unban'][language]}")
 
 
 @rt.message(IsGroupChat(), Command("sleep"))
@@ -267,7 +263,7 @@ async def curfew(message: Message, bot: Bot):
         can_send_polls=False,
         can_add_web_page_previews=False
     )
-    if member.status not in ['administrator', 'creator']:
+    if member.status not in ['administrator', 'creator'] and not message.sender_chat:
         await message.reply(MESSAGES['admin_rights_prohibited'][language_code])
     else:
         with suppress(TelegramBadRequest):
@@ -292,7 +288,7 @@ async def wake_up(message: Message, bot: Bot):
         can_send_polls=True,
         can_add_web_page_previews=True
     )
-    if member.status not in ['administrator', 'creator']:
+    if member.status not in ['administrator', 'creator'] and not message.sender_chat:
         await message.reply(MESSAGES['admin_rights_prohibited'][language_code])
     else:
         with suppress(TelegramBadRequest):
@@ -313,7 +309,7 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
     until_date_links = datetime.datetime.now() + datetime.timedelta(minutes=5)
     language = identify_language(chat_id)
     permits = get_chat_permissions(chat_id)
-    if chat_member.status not in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
         if banned_words(text, language):
             await message.delete()
             with suppress(TelegramBadRequest):
@@ -323,8 +319,21 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
                     permissions=ChatPermissions(can_send_messages=False),
                     until_date=until_date_banned_words
                 )
-                await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
+                await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.full_name)}, "
                                      f"{MESSAGES['anti_ban_words'][language]}")
+        if for_gamerland(text):
+            # if message.chat.id == -1001444716528:
+            if message.chat.id == -1002192805825:
+                await message.delete()
+                with suppress(TelegramBadRequest):
+                    await bot.restrict_chat_member(
+                        chat_id=message.chat.id,
+                        user_id=message.from_user.id,
+                        permissions=ChatPermissions(can_send_messages=False),
+                        until_date=until_date_banned_words
+                    )
+                    await message.answer(
+                        f"❌ {message.from_user.mention_html(message.from_user.full_name)} <i>был заглушен на 3 минуты! Причина: <b>администраторы запретили упоминание данной личности!</b></i>")
         if triggers(text, language):
             if not permits[0]:
                 await message.delete()
@@ -335,7 +344,7 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
                         permissions=ChatPermissions(can_send_messages=False),
                         until_date=until_date_swear_words
                     )
-                    await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
+                    await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.full_name)}, "
                                         f"{MESSAGES['anti_trigger'][language]}")
         if links_filter(text):
             if not permits[1]:
@@ -347,8 +356,7 @@ async def edited_banned_words_handler(message: Message, bot: Bot) -> None:
                         permissions=ChatPermissions(can_send_messages=False),
                         until_date=until_date_links
                     )
-                    await message.answer(f"📣❌ {message.from_user.mention_html(message.from_user.first_name)}, "
-                                            f"{MESSAGES['anti_links'][language]}")
+                    await message.answer(f"📣❌ {message.from_user.mention_html(message.from_user.full_name)} {MESSAGES['anti_links'][language]}")
 
 
 @rt.message(IsGroupChat())
@@ -360,7 +368,7 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
     until_date_swear_words = datetime.datetime.now() + datetime.timedelta(minutes=2)
     until_date_links = datetime.datetime.now() + datetime.timedelta(minutes=5)
     permits = get_chat_permissions(message.chat.id)
-    if chat_member.status not in ['administrator', 'creator']:
+    if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
         if banned_words(text, language):
             await message.delete()
             with suppress(TelegramBadRequest):
@@ -370,8 +378,20 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
                     permissions=ChatPermissions(can_send_messages=False),
                     until_date=until_date_banned_words
                 )
-                await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
+                await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.full_name)}"
                                      f"{MESSAGES['anti_ban_words'][language]}")
+        if for_gamerland(text):
+            # if message.chat.id == -1001444716528:
+            if message.chat.id == -1002192805825:
+                await message.delete()
+                with suppress(TelegramBadRequest):
+                    await bot.restrict_chat_member(
+                        chat_id=message.chat.id,
+                        user_id=message.from_user.id,
+                        permissions=ChatPermissions(can_send_messages=False),
+                        until_date=until_date_banned_words
+                    )
+                    await message.answer(f"❌ {message.from_user.mention_html(message.from_user.full_name)} <i>был заглушен на 3 минуты! Причина: <b>администраторы запретили упоминание данной личности!</b></i>")
         if triggers(text, language):
             if not permits[0]:
                 await message.delete()
@@ -382,7 +402,7 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
                         permissions=ChatPermissions(can_send_messages=False),
                         until_date=until_date_swear_words
                     )
-                    await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.first_name)}, "
+                    await message.answer(f"🤬❌ {message.from_user.mention_html(message.from_user.full_name)}, "
                                         f"{MESSAGES['anti_trigger'][language]}")
         if links_filter(text):
             if not permits[1]:
@@ -394,5 +414,4 @@ async def banned_words_handler(message: Message, bot: Bot) -> None:
                         permissions=ChatPermissions(can_send_messages=False),
                         until_date=until_date_links
                     )
-                    await message.answer(f"📣❌ {message.from_user.mention_html(message.from_user.first_name)}, "
-                                            f"{MESSAGES['anti_links'][language]}")
+                    await message.answer(f"📣❌ {message.from_user.mention_html(message.from_user.full_name)} {MESSAGES['anti_links'][language]}")

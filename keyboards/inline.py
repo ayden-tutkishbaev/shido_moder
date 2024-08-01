@@ -13,3 +13,10 @@ def languages_inline_buttons():
 
 delete_rus = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="❌", callback_data="delr")]])
 delete_eng = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="❌", callback_data="dele")]])
+
+
+def admin_answer(sender_id):
+    button = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Answer the message",
+                                                                         callback_data=f"answer_to_{sender_id}")]])
+
+    return button

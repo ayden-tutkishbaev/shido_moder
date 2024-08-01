@@ -35,6 +35,15 @@ def banned_words(text, language):
     return False
 
 
+def for_gamerland(text):
+    if text:
+        cleaned_text = re.sub(r'\s+', '', text.lower())
+        for word in configs.maxwell_ban:
+            if re.search(rf"{word}", cleaned_text):
+                return True
+    return False
+
+
 def time_converter(time_text) -> datetime:
     if not time_text:
         return None

@@ -17,3 +17,8 @@ class RusStoryCreation(StatesGroup):
 
 class BugReport(StatesGroup):
     message = State()
+
+
+class AnswerMessage(StatesGroup):
+    to = State()
+    message = State()

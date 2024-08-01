@@ -1,64 +1,57 @@
-translation = {
-    "а": ["a", "а", "@"],
-    "б": ["б", "b", "6"],
-    "в": ["в", "v"],
-    "г": ["г", "g"],
-    "д": ["д", "d"],
-    "е": ["е", "e"],
-    "ё": ["ё", "e", "е"],
-    "ж": ["ж", "j"],
-    "з": ["z", "з", "3"],
-    "и": ["и", "й", "i"],
-    "й": ["й", "y"],
-    "к": ["к", "k"],
-    "л": ["л", "l"],
-    "м": ["м", "m"],
-    "н": ["н", "n"],
-    "о": ["о", "o", "0"],
-    "п": ["п", "p"],
-    "р": ["р", "p", "r"],
-    "с": ["с", "c", "s"],
-    "т": ["т", "t"],
-    "у": ["у", "y"],
-    "ф": ["ф", "f"],
-    "х": ["x", "h", "х"],
-    "ц": ["ц", "c"],
-    "ч": ["ч"],
-    "ш": ["ш"],
-    "щ": ["щ"],
-    "ъ": ["ъ"],
-    "ы": ["ы"],
-    "ь": ["ь"],
-    "э": ["э", "€"],
-    "ю": ["ю"],
-    "я": ["я"],
-    " ": [" "]
-}
-
-# message = ""
+# @rt.message(IsGroupChat(), Command(commands=["ban"]))   # TODO: fix
+# async def mute_handler(message: Message, bot: Bot, command: CommandObject):
+#     chat_id = message.chat.id
+#     language = identify_language(chat_id)
+#     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
 #
-# reason_filter = message.split(" ")
-# reason = " ".join(reason_filter)
+#     reply = message.reply_to_message
+#     if not reply:
+#         if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+#             return await message.answer(MESSAGES['admin_rights_prohibited'][language])
+#         else:
+#             return await message.answer(MESSAGES['reply_to_restrict'][language])
 #
-# print(reason_filter)
-# if reason == "":
-#     print("BLANK")
+#     if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+#         return await message.answer(MESSAGES['admin_rights_prohibited'][language])
+#
+#     if command.args:
+#         reason_filter = command.args.split(" ")
+#         reason = " ".join(reason_filter)
+#     else:
+#         reason_filter = []
+#         reason = ""
+#
+#     with suppress(TelegramBadRequest):
+#         await bot.ban_chat_member(chat_id=chat_id, user_id=reply.from_user.id)
+#         if reason == "":
+#             await message.answer(f"❌ <b>{reply.from_user.mention_html(reply.from_user.first_name)}</b> {MESSAGES['banned_no_reason'][language]}!")
+#         else:
+#             await message.answer(f"❌ <b>{reply.from_user.mention_html(reply.from_user.first_name)}</b> {MESSAGES['banned'][language]} <b>{reason}</b>!")
 
-from database.queries import *
 
-# print(get_eng_story_del("Headline"))
 
-BANNED_WORDS_RUS = ["хуй", "сука", "бля", "пидор", "ебать", "блядь", "пизда", "манда", "малафья", "дрочить", "минжа",
-                    "сперма", "гондон", "гандон", "целка", "трах", "минет", "педик", "хуе", "хуя", "выёбываться",
-                    "еба", "ёба", "fuck", "bitch", "shit", "cock", "suck", "dick",
-                    "анал", "сиськи", "мудила", "мудак", "пизд", "хер"]
 
-SWEAR_WORDS_RUS = ["хач", "харып", "мамбет", "хохол", "жид", "пиндос", "пендос", "чурка", "негр", "ниггер", "черножопый",
-                   "черномазый", "кацап", "москаль", "русня", "шлюха", "проститутка"]
 
-BANNED_WORDS_ENG = ["shit", "fuck", "cock", "crap", "dick", "pussy", "cunt",
-                    "cum", "penis", "fap", "wank", "anal", 'tits']
 
-SWEAR_WORDS_ENG = ["bitch", "asshole", "nigger", "nigga", "whore", "prostitute", "slut", "bastard", "hoe"]
 
-print(get_chat_permissions(-1002226995046))
+# @rt.message(IsGroupChat(), Command(commands=["unban"]))  # TODO: fix
+# async def unban_handler(message: Message, bot: Bot) -> None:
+#     reply = message.reply_to_message
+#     language = identify_language(message.chat.id)
+#     chat_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
+#     if chat_member.status not in ['administrator', 'creator'] and not message.sender_chat:
+#         await message.answer(MESSAGES['admin_rights_prohibited'][language])
+#     else:
+#         if not reply:
+#             await message.answer(MESSAGES['reply_to_restrict'][language])
+#         else:
+#             suspect = await bot.get_chat_member(message.chat.id, message.reply_to_message.from_user.id)
+#             if suspect.status not in ['kicked']:
+#                 await message.answer(f"😳 {reply.from_user.mention_html(reply.from_user.first_name)} {MESSAGES['unban_error'][language]}")
+#             else:
+#                 with suppress(TelegramBadRequest):
+#                     await bot.unban_chat_member(chat_id=message.chat.id, user_id=reply.from_user.id)
+#                     await message.answer(
+#                         f"🔓 {reply.from_user.mention_html(reply.from_user.first_name)} {MESSAGES['unban'][language]}")
+
+

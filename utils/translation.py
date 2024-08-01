@@ -118,8 +118,8 @@ MESSAGES = {
         /curfew & /wakeup 💤 <i>Комендантский час</i>\nАдминистраторы могут выключать чат по ночам или же в неактивное для них время. Не забудьте потом его включать обратно! 😜\n\n\n\n🚧 <b>Другие команды в разработке! Оставайтесь с нами чтобы не пропустить обновления! ;)</b>"""
     },
     "about": {
-        "eng": "Coming soon...",
-        "rus": "Coming soon..."
+        "eng": "😉 We are the team which develops various Telegram bots for many different purposes!\n\n➡️ <b>OUR CHANNEL:</b> t.me/hikkiprods",
+        "rus": "😉 Мы команда, разрабатывающая различных ботов в Telegram по разным назначениям!\n\n➡️ <b>НАШ КАНАЛ:</b> t.me/hikkiprods",
     },
     "reply_to_restrict": {
         "eng": "Reply to a message of offender to apply the command",
@@ -138,8 +138,8 @@ MESSAGES = {
         "rus": "Сообщить об ошибке / Предложить улучшение"
     },
     "bug_reported": {
-        "eng": "Good part of the day! What is the problem that you have faced?",
-        "rus": "Доброго времени суток! Напишите о проблеме, с которой вы столкнулись: "
+        "eng": "Good part of the day!\n\nLeave you message to the creator (bug report, upgrade suggestion):",
+        "rus": "Доброго времени суток!\n\nОставьте сообщение создателю бота (сообщение об ошибке, предложение об улучшении): "
     },
     "waiting": {
         "eng": "Your message is being sent, please wait...",
@@ -149,21 +149,25 @@ MESSAGES = {
         "eng": "An unknown error occurred while sending the message, try again!",
         "rus": "При отправлении сообщения произошла неизвестная ошибка, попробуйте снова!"
     },
+    "sending_success": {
+        "eng": "Your message has been sent successfully!",
+        "rus": "Ваше сообщение было отправлено успешно!",
+    },
     "links_on": {
-        "eng": "Muting for links sharing is off.📣 Links are allowed in messages now!",
-        "rus": "Мут за ссылки в сообщении отключен.📣 Теперь ссылки разрешены!"
+        "eng": "Muting for links sharing is off.\n📣 Links are allowed in messages now!",
+        "rus": "Мут за ссылки в сообщении отключен.\n📣 Теперь ссылки разрешены!"
     },
     "strong_language_on": {
-        "eng": "Muting for strong language in message is off.🥴 Express your thoughts in any way!",
-        "rus": "Мут за нецензурные слова отключен.🥴 Выражайтесь, как душе угодно!"
+        "eng": "Muting for strong language in message is off.\n🥴 Express your thoughts in any way!",
+        "rus": "Мут за нецензурные слова отключен.\n🥴 Выражайтесь, как душе угодно!"
     },
     "links_off": {
-        "eng": "Muting for links sharing is on!📣❌ Links are prohibited in messages now!",
-        "rus": "Мут за ссылки в сообщении включен!📣❌ Ссылки теперь запрещены в чате!"
+        "eng": "Muting for links sharing is on!📣❌\nLinks are prohibited in messages now!",
+        "rus": "Мут за ссылки в сообщении включен!📣❌\nСсылки теперь запрещены в чате!"
     },
     "strong_language_off": {
-        "eng": "Muting for strong language in message is on!\n😉Mind your language, dear participants!",
-        "rus": "Мут за нецензурные слова включен!\n😉Следите за своей речью, уважаемые участники группы!"
+        "eng": "Muting for strong language in message is on!\n😉 Mind your language, dear participants!",
+        "rus": "Мут за нецензурные слова включен!\n😉 Следите за своей речью, уважаемые участники группы!"
     },
     "message_success": {
         "eng": "Your message has been sent successfully ✅",
@@ -180,5 +184,9 @@ MESSAGES = {
     "curfew_off": {
         "eng": "🌄 <i>Messages are <b>open</b> for everyone!</i>",
         "rus": "🌄 <i>Сообщения <b>открыты</b> для всех!</i>"
+    },
+    "message_answered": {
+        "eng": "The creator has answered to your message!",
+        "rus": "Создатель ответил на ваше сообщение!"
     }
 }

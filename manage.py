@@ -17,7 +17,7 @@ config = dotenv_values(".env")
 
 async def main() -> None:
     dp = Dispatcher()
-    bot = Bot(token=config['BOT_TOKEN'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    bot = Bot(token=config['BOT_TOKEN_2'], default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
     dp.include_routers(
         admins.rt,
@@ -29,16 +29,10 @@ async def main() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    # stories_table()
-    # create_languages_table()
-    # eng_stories_table()
-    # rus_stories_table()
-    #TODO: on production
-    # chat_permissions()
-    # all_chats = get_all_chats()
-    # for chat in all_chats:
-    #     fill_all_rows(chat, False, True)
-
+    create_languages_table()
+    eng_stories_table()
+    rus_stories_table()
+    chat_permissions()
     try:
         asyncio.run(main())
     except KeyboardInterrupt:

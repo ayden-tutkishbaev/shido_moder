@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 from database.queries import *
 
-from keyboards import keyboards as rp
+from keyboards import keyboards as rp, inline as il
 
 from utils.translation import MESSAGES
 
@@ -54,11 +54,14 @@ async def send_newsletter(message: Message, state: FSMContext, bot: Bot) -> None
     language = identify_language(message.chat.id)
     await message.answer(MESSAGES['waiting'][language])
     try:
-        await bot.send_message(chat_id=7215866709, text=f"<b>A bug has been reported by {message.from_user.full_name}!</b>")
-        await message.send_copy(chat_id=7215866709)
+        if message.from_user.username:
+            await bot.send_message(chat_id=7215866709, text=f"<b>There is a message from @{message.from_user.username}!</b>")
+        else:
+            await bot.send_message(chat_id=7215866709, text=f"<b>There is a message from @{message.from_user.full_name}!</b>")
+        await message.send_copy(chat_id=7215866709, reply_markup=il.admin_answer(message.from_user.id))
+        await message.answer(MESSAGES['sending_success'][language])
     except:
-        await message.answer(MESSAGES['message_success'][language])
-    await message.answer("The message has been sent to all successfully!")
+        await message.answer(MESSAGES['sending_error'][language])
     await state.clear()
 
 
@@ -66,8 +69,7 @@ async def send_newsletter(message: Message, state: FSMContext, bot: Bot) -> None
 "Добавить бота в группу!"])
 async def add_me_instructions(message: Message):
     language = identify_language(message.chat.id)
-    await message.answer_photo(photo="AgACAgIAAxkBAAIBXGaiTfFRm-_T4xmNFBW3ERxzBfLlAAKZ4DEbolwZSSbhX-kL4VyPAQADAgADeQADNQQ",
-                               caption=MESSAGES['how_to_add'][language])
+    await message.answer(MESSAGES['how_to_add'][language])
 
 
 @rt.message(IsPrivateChat(), lambda message: message.text in ["List of the bot commands",
